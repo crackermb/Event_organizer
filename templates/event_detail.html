@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ event.title }}</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2>{{ event.title }}</h2>
+    <p>{{ event.description }}</p>
+    <p><strong>Date:</strong> {{ event.date }}</p>
+
+    <h3>Attendees</h3>
+    <ul>
+        {% for rsvp in event.rsvp_set.all %}
+            {% if rsvp.status == 'going' %}
+                <li>{{ rsvp.user.username }} - Going</li>
+            {% elif rsvp.status == 'interested' %}
+                <li>{{ rsvp.user.username }} - Interested</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+    <!-- RSVP Section -->
+    <h4>RSVP to this event:</h4>
+    <a href="{% url 'rsvp_event' event.id %}" class="btn btn-primary">RSVP Now</a>
+</div>
+
+</body>
+</html>
